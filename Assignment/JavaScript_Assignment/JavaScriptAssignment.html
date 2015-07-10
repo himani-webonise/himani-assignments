@@ -1,0 +1,151 @@
+<html>
+<head>
+<style>
+body {
+	
+	background-color:lightgrey}
+h1   {color:blue
+		text-align: center;
+	}
+
+h2   {color:red
+		
+	}
+
+</style>
+</head>
+<body>
+
+			<h1 >"Himani's Task Status"</h1>
+			<input type="textbox" id="t1"/>
+			<button onclick="insertToDo()">Add</button>
+
+
+			<br>
+			<br>
+
+
+		<script type="text/javascript">
+		var isProgressTableActive = false;
+		var isHistoryActive = false;
+
+			function insertToDo()
+			{
+				
+				console.log("dfdd");
+				var list=document.getElementById('t1');
+				var table=document.getElementById('todo');
+				var row = table.insertRow(0);
+    			var cell1 = row.insertCell(0);
+    			var cell2 = row.insertCell(1);
+    			var cell3 = row.insertCell(2);
+    			row.appendChild(cell1); 
+				row.appendChild(cell2); 
+				row.appendChild(cell3); 
+				table.appendChild(row);
+    			cell1.innerHTML = list.value;
+    			cell2.innerHTML = "<button onclick='complete(this)'>add</button>";
+    			cell3.innerHTML = "<button onclick='deleteRow(this)'>remove</button>";
+    			table.appendChild(row);
+   				setHistory();
+   				
+
+			}
+
+			function deleteRow(index)
+			{
+
+				//console.log(row.parentNode);
+    			document.getElementById("todo").deleteRow(index);
+
+			}
+			function  complete(name) 
+			{
+				console.log(name.parentNode.parentNode.rowIndex);
+				var rowIndex=name.parentNode.parentNode.rowIndex;
+				var table=document.getElementById('completed');
+				var row = table.insertRow(0);
+    			var cell1 = row.insertCell(0);
+    			var cell2 = row.insertCell(1);
+    			row.appendChild(cell1); 
+    			row.appendChild(cell2); 
+    			table.appendChild(row);
+    			var a=(document.getElementById("todo").rows[rowIndex]).cells[0].innerHTML;
+    			console.log(a);
+    			cell1.innerHTML=a;
+			cell2.innerHTML='<input type="button" id="delButton" onclick="deleteComplete()" value="remove"></input>';	
+				deleteRow(name);
+							
+			}
+
+			function deleteComplete(index)
+			{
+				document.getElementById("completed").deleteRow(index);
+			}
+
+			function storeAtLocal(name)
+			{
+				
+				localStorage.setItem("key","asa");
+
+			}
+
+
+
+			function clearLocalStorage()
+			{
+				localStorage.clear();
+			}
+
+		var historyVar=" ";
+
+			function setHistory()
+			{
+				var list=document.getElementById('t1');
+				var table=document.getElementById('history');
+				var row = table.insertRow(0);
+    			var cell1 = row.insertCell(0);
+
+    			row.appendChild(cell1); 
+				table.appendChild(row);
+    			historyVar = historyVar+", "+list.value;
+    			cell1.innerHTML=list.value;
+    			table.appendChild(row);
+			}
+		
+			function showHistory()
+			{
+				var  variable=historyVar;
+				document.alert("Elements Present in History are "+variable);
+			}
+
+		</script>
+
+
+
+
+	<table  id="todo" width="100%">
+			<h2>TO Do Task List </h1>
+	</table>
+<hr>
+	<table  id="completed" width="100%">
+		<h2>Completed Task List </h1>
+	</table>
+	
+
+	<br>
+	<br>
+<hr>
+
+<br>
+	<table id="history" width="100%">
+		<th>Task In History   
+			<button onclick="showHistory()" >History</button>
+		</th>
+		<tr> 
+			<td>
+		</tr>
+	</table>
+
+</body>
+</html>
