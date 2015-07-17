@@ -1,0 +1,28 @@
+/*
+ASSIGNMENT :
+
+QUESTION :
+
+Basic CMS in MongoDB
+
+User (login info, timestamps, username) User - profile (name, address, phone, etc.) Roles (super admin, admin, editor) Pages (title, content, slug) Comments (owner, title)
+
+*/
+List of operations on the collections are as:
+
+...........................................................................
+
+1. Query to list all the users and there id's:
+
+>db.user.find({},{_id:1,user_name:1}).pretty()
+
+2. Query to show username from Object_id
+
+> db.user.find({_id:ObjectId("55a8b2f0024a2bccc14874fd")},{username:1})
+
+
+3.Query to show comment of any user on particular author
+
+>db.pages.find({'comments.owner':'user3','author':'authorname'},{'comments.$':1}).pretty()
+
+-------------------------------------------------------------------------

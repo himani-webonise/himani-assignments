@@ -1,0 +1,61 @@
+
+cms.user
+={
+	_id		:	ObjectId,
+	user_name	: 	String,
+	password	: 	String,
+	email_id	:	String,
+	last_login	:	timestamp,	
+	user_since	:	timestamp,
+	user_profile
+	{
+		first_name	:	"String"
+		last_name	:	"String"
+		display_picture	:	blob or clob
+		status		:	"String"
+		address		:	
+				{
+					street_no 	: 	integer,
+					address_line1	: 	String,
+					address_line2	:	String,
+					city		:	String,
+					state		:	String,
+					country		:	String,
+					pincode		:	[Array of numbers],
+				}
+		phone		:	[Array of Numbers]
+	}	
+}	
+
+
+cmd.roles
+{
+	_id		:	ObjectId
+	role_type	:	String//type of user (super admin/admin/author),	
+	permissions	:	integer
+}
+
+
+
+cms.pages
+={
+	page_no		:	ObejctId,
+	page_headline	:	String,
+	page_url	:	String,
+	author		:	String,		
+	content		:	String,
+	slug		:	String,
+	comments 	: [
+			{ 
+				comment1:{_id : Object_id(), content : "String" , user_id : Integer},
+		      	  	comment2:{_id : Object_id(), content : "String" , user_id : Integer}
+		  	}],
+
+	social_feeds	:[
+			{	_id		:	ObjectId,
+				url		:	String,
+				content		:	String
+			}]
+}
+
+
