@@ -1,0 +1,351 @@
+<html>
+
+<head>
+	<title>JavaScript DashBoard</title>
+	
+	<script type="text/javascript">
+
+	//Parent Class for making table
+
+		function makingTable()
+		{
+			var table;
+				var row;
+				var cell1;
+    			var cell2;
+			 	makingTable.prototype.creating = function(tableName)
+				{
+					this.table=document.getElementById(tableName);
+					this.row = this.table.insertRow(0);
+					this.cell1 = this.row.insertCell(0);
+    				this.cell2 = this.row.insertCell(1);
+    				this.row.appendChild(this.cell1);
+    				this.row.appendChild(this.cell2);
+				}
+		}
+
+
+		//Child Class for Todo Table
+			function insertToDo()
+			{
+				makingTable.call(this);
+				insertToDo.prototype = Object.create(makingTable.prototype);
+				insertToDo.prototype.constructor = insertToDo;
+
+				
+				console.log("Inserting into to do list");
+				var list=document.getElementById('t1');
+				if(list.value.length==0)
+				{
+				alert("Please enter some value!!!");
+				}
+				else
+				{
+
+				makingTable.prototype.creating('todo');
+		
+    			var cell3 =makingTable.prototype.row.insertCell(2);
+    			var cell4=makingTable.prototype.row.insertCell(3);
+				makingTable.prototype.row.appendChild(cell3); 
+				makingTable.prototype.row.appendChild(cell4);
+				makingTable.prototype.table.appendChild(makingTable.prototype.row);
+    			makingTable.prototype.cell1.innerHTML = list.value;
+    			makingTable.prototype.cell2.innerHTML = "<button onclick='complete(this)'>Task Done</button>";
+    			cell3.innerHTML = "<button onclick='deleteRowToDo(this)'>Remove Task</button>";
+    			cell4.innerHTML = "<button onclick='inProgress(this)'>Start Task</button>";
+    			
+   				setHistory();
+   				addInLocalStorage("todo",list.value);
+   				console.log("Inserting into to do list DONE");
+   				}
+
+			}
+			//Child Class for In Progress Table
+			function inProgress(name)
+			{
+				makingTable.call(this);
+				inProgress.prototype = Object.create(makingTable.prototype);
+
+				inProgress.prototype.constructor = inProgress;
+
+				console.log(name.parentNode.previousSibling.previousSibling.previousSibling);
+
+				makingTable.prototype.creating('inprogress');
+				
+    			
+    			var cell3=makingTable.prototype.row.insertCell(2);
+
+    			makingTable.prototype.row.appendChild(cell3);
+    			makingTable.prototype.table.appendChild(makingTable.prototype.row);
+    			
+    			//var a=(document.getElementById("todo").rows[rowIndex]).cells[0].innerHTML;
+    			var a = name.parentNode.previousSibling.previousSibling.previousSibling.childNodes[0].data;
+    			console.log(a);
+    			makingTable.prototype.cell1.innerHTML=a;
+
+    			makingTable.prototype.cell2.innerHTML = "<button onclick='completeShift(this)'>Task Done</button>";
+				cell3.innerHTML='<input type="button" id="delButton" onclick="deleteProgress(this)" value="Abort Task"></input>';	
+			
+				deleteRowToDo(name);
+				addInLocalStorage("inprogress",a);				
+
+			}
+			inProgress.prototype=new makingTable();
+
+		//Child Class for In Complete Table
+			function  complete(name) 
+			{
+
+    			completeChild.creating('completed');
+    			completeChild.table.appendChild(completeChild.row);
+
+   
+    			//var a=(document.getElementById("todo").rows[rowIndex]).cells[0].innerHTML;
+    			var a = name.parentNode.previousSibling.childNodes[0].data;      
+    			console.log(a);
+    			completeChild.cell1.innerHTML=a;
+				completeChild.cell2.innerHTML='<input type="button" id="delButton" onclick="deleteFromComplete(this)" value="remove"></input>';	
+				deleteRowToDo(name);			
+				addInLocalStorage("Complete",a);	
+			}
+			var completeChild=new makingTable();
+
+			//Child class for shifting values from InProgress Table to Complete Table
+
+			function  completeShift(name) 
+			{
+
+				console.log(name.parentNode.previousSibling.childNodes[0]);
+    			shiftChild.creating('completed');
+    			shiftChild.table.appendChild(shiftChild.row);
+
+    			//var a=(document.getElementById("inprogress").rows[rowIndex]).cells[0].innerHTML;
+    			var a = name.parentNode.previousSibling.childNodes[0].data;   
+    			console.log(a);
+    			shiftChild.cell1.innerHTML=a;
+				shiftChild.cell2.innerHTML='<input type="button" id="delButton" onclick="deleteFromComplete(this)" value="remove"></input>';	
+				deleteProgress(name);
+				addInLocalStorage("Complete",a);
+							
+			}
+			var shiftChild=new makingTable();
+
+			function deletionTable()
+			{
+
+			 	this.deleting = function(tableName,index)
+				{
+					console.log(tableName+" "+index.parentNode.parentNode.rowIndex);
+					updateHistory(index.parentNode.parentNode.parentNode.id,index.parentNode.parentNode.firstChild.innerHTML);
+					document.getElementById(tableName).deleteRow(index.parentNode.parentNode.rowIndex);
+				}
+			}
+
+			
+			function deleteProgress(index)
+			{
+				//deletionTable.call(this);		
+				//document.getElementById("inprogress").deleteRow(index);
+				obj.deleting('inprogress',index);
+			}
+			
+
+			function deleteRowToDo(index)
+			{
+				console.log(index);
+				console.log("deleting item");
+				deletionTable.call(this);				
+				//console.log(row.parentNode);
+    			//document.getElementById("todo").deleteRow(index);
+    			obj.deleting('todo',index);
+
+			}
+
+			function deleteFromComplete(index)
+			{
+				deletionTable.call(this);
+				//document.getElementById("completed").deleteRow(index);
+				obj.deleting('completed',index);
+			}
+
+			var obj=new deletionTable();
+
+			function setHistory()
+			{
+				var list=document.getElementById('t1');
+				var table=document.getElementById('history');
+				var row = table.insertRow(0);
+    			var cell1 = row.insertCell(0);
+
+    			row.appendChild(cell1); 
+				table.appendChild(row);
+    			//historyVar = historyVar+", "+list.value;
+    			cell1.innerHTML=list.value;
+    			addInLocalStorage("HistoryList",list.value);
+			}
+
+			function showHistoryTable(tableName,listName)
+			{
+				console.log("Retrieving history");
+				var table = document.getElementById(tableName);
+				var data = localStorage.getItem(listName);
+
+				if(data)
+				{
+					var myRows = data.split(',');
+					console.log(myRows.length);
+					table.innerHTML = "";
+					var rowLength=myRows.length-1;
+					for(i=0 ; i<rowLength ; i++)
+					{
+	
+						if(tableName=="todo")
+						{
+							var row = table.insertRow(0);
+    						var cell1 = row.insertCell(0);
+    						var cell2 = row.insertCell(1);
+    						var cell3 = row.insertCell(2);
+    						var cell4=row.insertCell(3);
+    						row.appendChild(cell1); 
+							row.appendChild(cell2); 
+							row.appendChild(cell3); 
+							row.appendChild(cell4);
+							table.appendChild(row);
+    						cell1.innerHTML = myRows[i];
+    						cell2.innerHTML = '<button onclick="complete(this)">Task Done</button>';
+    						cell3.innerHTML = '<button onclick="deleteRowToDo(this)">Remove Task</button>';
+    						cell4.innerHTML = '<button onclick="inProgress(this)">Start Task</button>';
+						}
+						if(tableName=="completed")
+						{
+							var row = table.insertRow(0);
+    						var cell1 = row.insertCell(0);
+    						var cell2 = row.insertCell(1);
+    						row.appendChild(cell1); 
+    						row.appendChild(cell2); 
+    						table.appendChild(row);
+    						cell1.innerHTML=myRows[i];
+							cell2.innerHTML='<input type="button" id="delButton" onclick="deleteFromComplete(this)" value="remove"></input>';
+						}
+						if(tableName=="inprogress")
+						{
+							var row = table.insertRow(0);
+    						var cell1 = row.insertCell(0);
+    						var cell2 = row.insertCell(1);
+    						var cell3=row.insertCell(2);
+    						row.appendChild(cell1); 
+    						row.appendChild(cell2); 
+    						row.appendChild(cell3);
+    						table.appendChild(row);
+    						cell1.innerHTML=myRows[i];
+    						cell2.innerHTML = "<button onclick='completeShift(this)'>Task Done</button>";
+							cell3.innerHTML='<input type="button" id="delButton" onclick="deleteProgress(this)" value="Abort Task"></input>';	
+
+						}
+						if(tableName=="history")
+						{
+							var row = table.insertRow(0);
+    						var cell1 = row.insertCell(0);
+    						row.appendChild(cell1); 
+							table.appendChild(row);
+    						cell1.innerHTML=myRows[i];
+    			
+    					}
+					}
+				}
+			}
+
+			function updateHistory(tableName,data)
+			{
+				console.log(tableName+" "+data);
+				var tab=localStorage.getItem(tableName);
+					//tab.split();	
+		
+				var newRows="";
+				if(tab==null)
+					tab="";
+				else
+				{
+					var myRows = tab.split(',');
+					for(i=0 ; i<myRows.length-1 ; i++)
+					if(myRows[i]!==data)
+						newRows=newRows+myRows[i]+",";
+					else
+						console.log(data+" deleted");
+				console.log("current data to delete is -> "+data);
+				}
+				localStorage.setItem(tableName,newRows);
+			
+			}
+
+
+			function clearlocalstorages()
+			{
+				localStorage.clear();
+			}
+	
+			function addInLocalStorage(table,value)
+			{
+				console.log(table+"--"+value);
+				var tab = localStorage.getItem(table);
+				if(tab==null)
+				{
+					console.log(Storage+" is null");
+					tab="";
+				}
+				tab = tab+value+",";
+				console.log(tab);
+				localStorage.setItem(table,tab);
+			}
+
+
+			function loadData()
+			{
+				console.log('sdf')
+				showHistoryTable("todo", "todo");
+				showHistoryTable("completed", "Complete");
+				showHistoryTable("inprogress", "inprogress");
+				showHistoryTable("history", "HistoryList");
+			}
+
+
+
+	</script>	
+		
+</head>
+
+<body onload="loadData()">	
+
+	<link rel="stylesheet" href="tri.css">
+		<h1>Welcome, Let's discuss the task with ease...!!!</h1>
+		<p>
+			<input type="textbox" id="t1"/>
+			<button onclick="insertToDo()">Add Task</button>			
+			<button onclick="clearlocalstorages()">Clear Local Storage</button>
+			<br>
+			<br>
+
+	<table  id="todo" width="100%">
+			<h2>TO Do Task List </h1>
+	</table>
+
+	<table  id="completed" width="100%">
+		<h2>Completed Task List </h1>
+	</table>
+	
+	<table id="inprogress" width="100%">
+		<h2>Task In Progress...
+		</table>
+		<br>
+		<br>
+		<hr>
+
+		<br>
+	<table id="history" width="100%">
+		<h1>Task In History   </h1>
+	</table>
+	</p>
+
+</body>
+
+</html>
