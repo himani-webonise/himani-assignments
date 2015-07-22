@@ -1,0 +1,25 @@
+body,div {
+		font-family:Arial,Helvetica,sans;
+		font-style:normal;
+		font-size:1em;
+   		margin 1px 20px
+}
+#page {
+		margin:0px auto;
+		 padding border-left-width: 0.1cm
+}
+p {
+		text-align:left;
+		font-size:11px;
+		line-height:17px;
+		margin:0px 0px 12px 0px;
+		padding:0.1cm 0.7cm 0cm 0.4cm;
+		margin-left: auto;
+    	margin-right: auto;   
+}
+
+h1,h2{
+		margin:5px;	
+		padding-left: 0.2cm;	
+		font-weight:normal
+	}
